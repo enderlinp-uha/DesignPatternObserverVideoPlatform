@@ -19,7 +19,7 @@ public class User implements IObserver {
                 this.message += "notification : Nouvelle vidéo ajoutée - [ID: "
                         + video.get(0) + ", Titre: \""
                         + video.get(1) + "\"]";
-            } else {
+            } else if (eventType.equals(EEvents.UPDATE.getLabel())) {
                 this.message += "notification : Changement dans la vidéo [ID: "
                         + video.get(0) + "] - Nouveau titre: \""
                         + video.get(1) + "\"";
