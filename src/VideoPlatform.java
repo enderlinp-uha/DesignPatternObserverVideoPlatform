@@ -4,18 +4,22 @@ import java.util.List;
 import java.util.Map;
 
 public class VideoPlatform implements ISubject {
-    public Map<String, List<IObserver>> observersList;
-    public List<IObserver> observers;
+    public Map<String, List<IObserver>> observersList = new HashMap<>();
+    public Map<String, List<String>> videos = new HashMap<>();
     public String message;
 
     public VideoPlatform() {
         observersList = new HashMap<String, List<IObserver>>();
-        observers = new ArrayList<>();
     }
 
     public void addObserver(String eventType, IObserver observer) {
-        observers.add(observer);
-        observersList.put(eventType, observers);
+        if (observersList.containsKey(eventType)) {
+            observersList.get(eventType).add(observer);
+        } else {
+            List<IObserver> observers = new ArrayList<>();
+            observers.add(observer);
+            observersList.put(eventType, observers);
+        }
     }
 
     public void removeObserver(String eventType, IObserver observer) {
@@ -35,12 +39,28 @@ public class VideoPlatform implements ISubject {
     }
 
     public void addVideo(String videoId, String title, String description) {
-        Map<String, String> data = Map.of("videoId", videoId, "title", title, "description", description);
-        this.notifyObservers("Nouvelle vidéo ajoutée", data);
+        videos.put(videoId, new ArrayList<>());
+        videos.get(videoId).add(title);
+        videos.get(videoId).add(description);
+
+        List<String> data = new ArrayList<>();
+        data.add(videoId);
+        data.add(title);
+        data.add(description);
+        this.notifyObservers("nouvelle vidéo", data);
     }
 
     public void updateVideo(String videoId, String newTitle, String newDescription) {
-
+        List<String> video = videos.get(videoId);
+        if (video != null) {
+            video.set(0, newTitle);
+            video.set(1, newDescription);
+        }
+        List<String> data = new ArrayList<>();
+        data.add(videoId);
+        data.add(newTitle);
+        data.add(newDescription);
+        this.notifyObservers("modification", data);
     }
 
     public void sendGeneralNotification(String message) {

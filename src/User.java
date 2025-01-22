@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Map;
 
 public class User implements IObserver {
@@ -14,11 +15,11 @@ public class User implements IObserver {
         if (eventType.equals("notification générale")) {
             this.message += eventType + " : " + '"' + data + '"';
         } else {
-            Map<String, String> dataMap = (Map<String, String>) data;
-            if (eventType.equals("Nouvelle vidéo ajoutée")) {
-                this.message += "notification : " + eventType + " - [ID: " + dataMap.get("videoId") + ", Titre: " + dataMap.get("title") + "]";
+            List<String> video = (List<String>) data;
+            if (eventType.equals("nouvelle vidéo")) {
+                this.message += "notification : Nouvelle vidéo ajoutée - [ID: " + video.get(0) + ", Titre: \"" + video.get(1) + "\"]";
             } else {
-                //
+                this.message += "notification : Changement dans la vidéo [ID: " + video.get(0) + "] - Nouveau titre: \"" + video.get(1) + "\"";
             }
         }
         System.out.println(this.message);

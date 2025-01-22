@@ -4,16 +4,20 @@ public class Main {
         User alice = new User("Alice");
         User bob   = new User("Bob");
 
-        systemNotification.addObserver("Nouvelle vidéo ajoutée", alice);
-        systemNotification.addObserver("Changement dans la vidéo", bob);
+        systemNotification.addObserver("nouvelle vidéo", alice);
+        systemNotification.addObserver("modification", bob);
         systemNotification.addObserver("notification générale", bob);
-
         systemNotification.addVideo(
-                "v1",
-                "Charlie et la chocolaterie",
-                "C'est l'histoire de 5 gamins qui se font kidnapper par un artisan chocolatier"
+                "v123",
+                "Introduction à java",
+                ""
         );
-
+        //systemNotification.removeObserver("modification", bob);
+        systemNotification.updateVideo(
+                "v123",
+                "Java avancé",
+                ""
+        );
         systemNotification.sendGeneralNotification("Promotion spéciale : Abonnez-vous maintenant !");
     }
 }
