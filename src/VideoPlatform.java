@@ -6,13 +6,11 @@ import java.util.Map;
 public class VideoPlatform implements ISubject {
     public Map<String, List<IObserver>> observersList;
     public List<IObserver> observers;
-    public List<List<String>> videos;
     public String message;
 
     public VideoPlatform() {
-        observers = new ArrayList<>();
         observersList = new HashMap<String, List<IObserver>>();
-        videos = new ArrayList<>();
+        observers = new ArrayList<>();
     }
 
     public void addObserver(String eventType, IObserver observer) {
@@ -37,11 +35,8 @@ public class VideoPlatform implements ISubject {
     }
 
     public void addVideo(String videoId, String title, String description) {
-        List<String> video = new ArrayList<>();
-        video.add(videoId);
-        video.add(title);
-        video.add(description);
-        videos.add(video);
+        Map<String, String> data = Map.of("videoId", videoId, "title", title, "description", description);
+        this.notifyObservers("Nouvelle vidéo ajoutée", data);
     }
 
     public void updateVideo(String videoId, String newTitle, String newDescription) {
