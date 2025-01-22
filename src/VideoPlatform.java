@@ -42,11 +42,7 @@ public class VideoPlatform implements ISubject {
         videos.put(videoId, new ArrayList<>());
         videos.get(videoId).add(title);
         videos.get(videoId).add(description);
-
-        List<String> data = new ArrayList<>();
-        data.add(videoId);
-        data.add(title);
-        data.add(description);
+        List<String> data = List.of(videoId, title, description);
         this.notifyObservers("nouvelle vidéo", data);
     }
 
@@ -55,12 +51,9 @@ public class VideoPlatform implements ISubject {
         if (video != null) {
             video.set(0, newTitle);
             video.set(1, newDescription);
+            List<String> data = List.of(videoId, newTitle, newDescription);
+            this.notifyObservers("modification", data);
         }
-        List<String> data = new ArrayList<>();
-        data.add(videoId);
-        data.add(newTitle);
-        data.add(newDescription);
-        this.notifyObservers("modification", data);
     }
 
     public void sendGeneralNotification(String message) {

@@ -9,13 +9,13 @@ public class Main {
         systemNotification.addObserver("notification générale", bob);
         systemNotification.addVideo(
                 "v123",
-                "Introduction à java",
+                "Introduction à Java",
                 ""
         );
         //systemNotification.removeObserver("modification", bob);
         systemNotification.updateVideo(
                 "v123",
-                "Java avancé",
+                "Java Avancé",
                 ""
         );
         systemNotification.sendGeneralNotification("Promotion spéciale : Abonnez-vous maintenant !");
