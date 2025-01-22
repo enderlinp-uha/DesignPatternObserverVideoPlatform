@@ -39,16 +39,18 @@ public class VideoPlatform implements ISubject {
     }
 
     public void addVideo(String videoId, String title, String description) {
-        videos.put(videoId, new ArrayList<>());
-        videos.get(videoId).add(title);
-        videos.get(videoId).add(description);
-        List<String> data = List.of(videoId, title, description);
-        this.notifyObservers("nouvelle vidéo", data);
+        if (!videos.containsKey(videoId)) {
+            videos.put(videoId, new ArrayList<>());
+            videos.get(videoId).add(title);
+            videos.get(videoId).add(description);
+            List<String> data = List.of(videoId, title, description);
+            this.notifyObservers("nouvelle vidéo", data);
+        }
     }
 
     public void updateVideo(String videoId, String newTitle, String newDescription) {
-        List<String> video = videos.get(videoId);
-        if (video != null) {
+         if (videos.containsKey(videoId)) {
+            List<String> video = videos.get(videoId);
             video.set(0, newTitle);
             video.set(1, newDescription);
             List<String> data = List.of(videoId, newTitle, newDescription);

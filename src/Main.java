@@ -12,12 +12,12 @@ public class Main {
                 "Introduction à Java",
                 ""
         );
-        //systemNotification.removeObserver("modification", bob);
         systemNotification.updateVideo(
                 "v123",
                 "Java Avancé",
                 ""
         );
         systemNotification.sendGeneralNotification("Promotion spéciale : Abonnez-vous maintenant !");
+        systemNotification.removeObserver("modification", bob);
     }
 }
