@@ -18,6 +18,6 @@ public class Main {
                 ""
         );
         systemNotification.sendGeneralNotification("Promotion spéciale : Abonnez-vous maintenant !");
-        systemNotification.removeObserver("modification", bob);
+        //systemNotification.removeObserver("modification", bob);
     }
 }

@@ -13,20 +13,28 @@ public class VideoPlatform implements ISubject {
     }
 
     public void addObserver(String eventType, IObserver observer) {
-        if (observersList.containsKey(eventType)) {
-            observersList.get(eventType).add(observer);
+        if (EEvents.labelExists(eventType)) {
+            if (observersList.containsKey(eventType)) {
+                observersList.get(eventType).add(observer);
+            } else {
+                List<IObserver> observers = new ArrayList<>();
+                observers.add(observer);
+                observersList.put(eventType, observers);
+            }
         } else {
-            List<IObserver> observers = new ArrayList<>();
-            observers.add(observer);
-            observersList.put(eventType, observers);
+            System.out.println("Ce type d'évènement n'existe pas : " + eventType);
         }
     }
 
     public void removeObserver(String eventType, IObserver observer) {
-        for (Map.Entry<String, List<IObserver>> entry : observersList.entrySet()) {
-            if (entry.getKey().equals(eventType)) {
-                entry.getValue().remove(observer);
+        if (EEvents.labelExists(eventType)) {
+            for (Map.Entry<String, List<IObserver>> entry : observersList.entrySet()) {
+                if (entry.getKey().equals(eventType)) {
+                    entry.getValue().remove(observer);
+                }
             }
+        } else {
+            System.out.println("Ce type d'évènement n'existe pas : " + eventType);
         }
     }
 
@@ -35,6 +43,8 @@ public class VideoPlatform implements ISubject {
             for (IObserver observer : observersList.get(eventType)) {
                 observer.update(eventType, data);
             }
+        } else {
+            System.out.println("Aucun observateur trouvé pour ce type d'évènement : " + eventType);
         }
     }
 
@@ -44,7 +54,9 @@ public class VideoPlatform implements ISubject {
             videos.get(videoId).add(title);
             videos.get(videoId).add(description);
             List<String> data = List.of(videoId, title, description);
-            this.notifyObservers("nouvelle vidéo", data);
+            this.notifyObservers(EEvents.INSERT.getLabel(), data);
+        } else {
+            System.out.println("Cette vidéo existe déjà : " + videoId);
         }
     }
 
@@ -54,12 +66,14 @@ public class VideoPlatform implements ISubject {
             video.set(0, newTitle);
             video.set(1, newDescription);
             List<String> data = List.of(videoId, newTitle, newDescription);
-            this.notifyObservers("modification", data);
-        }
+            this.notifyObservers(EEvents.UPDATE.getLabel(), data);
+        } else {
+             System.out.println("Cette video n'existe pas : " + videoId);
+         }
     }
 
     public void sendGeneralNotification(String message) {
         this.message = message;
-        this.notifyObservers("notification générale", this.message);
+        this.notifyObservers(EEvents.NOTIFICATION.getLabel(), this.message);
     }
 }
